@@ -20,35 +20,26 @@ const styles = {
     },
 };
 
-const card = {
-    state: "New",
-    number: "123",
-    application: "BENLI",
-    assignee: "BENLI",
-    shortDescription: "Lucky Lucky"
-}
-
 function SimpleCard(props) {
-    const { classes } = props;
-
+    const { classes, card } = props;
     return (
         <div>
             <Card className={classes.card}>
                 <CardContent>
                     <Typography className={classes.title} color="textSecondary">
-                        {card.state}
+                        {card.coreData.state}
                     </Typography>
                     <Typography variant="headline" component="h2">
-                        {card.number}
+                        {card.coreData.number}
                     </Typography>
                     <Typography className={classes.pos} color="textSecondary">
-                        application: {card.application}
+                        application: {card.coreData.application}
                     </Typography>
                     <Typography className={classes.pos} color="textSecondary">
-                        assignee: {card.assignee}
+                        assignee: {card.coreData.assignee}
                     </Typography>
                     <Typography component="p">
-                        {card.shortDescription}
+                        {card.coreData.shortDescription}
                     </Typography>
                 </CardContent>
                 <CardActions>
