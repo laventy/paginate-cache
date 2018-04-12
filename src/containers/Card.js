@@ -1,16 +1,16 @@
 import { connect } from 'react-redux'
-import { } from '../actions'
-import Cards from '../components/Cards'
+import { toggleDrawer } from '../actions'
+import Card from '../components/Card'
 
 const mapStateToProps = state => ({
-    cards: state.pages[state.meta.currentPage]
+
 })
 
 const mapDispatchToProps = dispatch => ({
-
+    toggleDrawer: currentCard => dispatch(toggleDrawer(currentCard))
 })
 
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(Cards)
+)(Card)

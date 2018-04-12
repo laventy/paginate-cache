@@ -2424,7 +2424,7 @@ const mockData = {
     2: [{
         "coreData": {
             "id": "7d7f415b4f1153000a614ebf9310c792",
-            "number": "INC0010055",
+            "number": "INC001005111",
             "lastUpdateDate": "2018-04-11 02:50:55",
             "type": "INCIDENT",
             "state": "New",
@@ -4644,7 +4644,7 @@ const mockData = {
     {
         "coreData": {
             "id": "db4554974f9d13000a614ebf9310c7ec",
-            "number": "INC0010052",
+            "number": "INC00100522121",
             "lastUpdateDate": "2018-04-10 22:36:57",
             "type": "INCIDENT",
             "state": "In Progress",

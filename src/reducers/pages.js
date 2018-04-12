@@ -1,4 +1,3 @@
-
 import mockData from "./mockData"
 
 const pages = (state = mockData, action) => {

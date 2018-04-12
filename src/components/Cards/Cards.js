@@ -3,11 +3,10 @@ import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import Grid from 'material-ui/Grid';
 
-import Card from '../Card';
-import Pagination from '../Pagination';
+import Card from '../../containers/Card';
+import Pagination from '../../containers/Pagination';
 
 import "./Cards.css";
-
 
 const styles = theme => ({
     root: {
@@ -25,40 +24,13 @@ const Cards = ({ classes, cards }) => {
                         <Grid container className={classes.demo} justify="center" spacing={Number(spacing)}>
                             {[0, 1, 2, 3].map(j => (
                                 <Grid key={j} item>
-                                    <Card card={cards[i * 4 + j]} />
+                                    <Card card={cards[i * 4 + j]} index={i * 4 + j} />
                                 </Grid>
                             ))}
                         </Grid>
                     </Grid>)
                 )
                 }
-                {/* <Grid item xs={12}>
-                    <Grid container className={classes.demo} justify="center" spacing={Number(spacing)}>
-                        {[0, 1, 2, 3].map(value => (
-                            <Grid key={value} item>
-                                <Card />
-                            </Grid>
-                        ))}
-                    </Grid>
-                </Grid>
-                <Grid item xs={12}>
-                    <Grid container className={classes.demo} justify="center" spacing={Number(spacing)}>
-                        {[0, 1, 2, 3].map(value => (
-                            <Grid key={value} item>
-                                <Card />
-                            </Grid>
-                        ))}
-                    </Grid>
-                </Grid>
-                <Grid item xs={12}>
-                    <Grid container className={classes.demo} justify="center" spacing={Number(spacing)}>
-                        {[0, 1, 2, 3].map(value => (
-                            <Grid key={value} item>
-                                <Card />
-                            </Grid>
-                        ))}
-                    </Grid>
-                </Grid> */}
                 <Grid item xs={12}>
                     <Pagination />
                 </Grid>

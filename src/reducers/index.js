@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux'
-import current from './current'
 import pages from './pages'
+import meta from './meta'
 
 export default combineReducers({
-    current,
+    meta,
     pages
 })

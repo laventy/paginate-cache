@@ -20,8 +20,7 @@ const styles = {
     },
 };
 
-function SimpleCard(props) {
-    const { classes, card } = props;
+const SimpleCard = ({ classes, card, index, toggleDrawer }) => {
     return (
         <div>
             <Card className={classes.card}>
@@ -39,11 +38,11 @@ function SimpleCard(props) {
                         assignee: {card.coreData.assignee}
                     </Typography>
                     <Typography component="p">
-                        {card.coreData.shortDescription}
+                        {card.coreData.shortDescription ? card.coreData.shortDescription : "No Description"}
                     </Typography>
                 </CardContent>
                 <CardActions>
-                    <Button size="small">Learn More</Button>
+                    <Button size="small" onClick={() => { toggleDrawer(index) }}>Learn More</Button>
                 </CardActions>
             </Card>
         </div>
