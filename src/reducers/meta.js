@@ -1,29 +1,42 @@
 //  meta = {
-//      currentPage,
-//      currentCard
+//      currentPageIndex,
+//      currentCardIndex
 //      totalPages
+//      cachedTo
 //  }
 
 const initialState = {
-    currentPage: 1,
-    currentCard: "",
-    totalPages: 2
+    currentPageIndex: 1,
+    currentCardIndex: "",
+    totalPages: "",
+    cachedTo: 0
 }
 
 const meta = (state = initialState, action) => {
+    console.log(state)
     switch (action.type) {
+        case 'SET_TOTAL':
+            return {
+                ...state,
+                totalPages: action.totalPages
+            }
+        case 'SET_CACHE_TO':
+            return {
+                ...state,
+                cachedTo: action.cachedTo
+            }
         case 'TOGGLE_DRAWER':
             return {
                 ...state,
-                currentCard: action.currentCard
+                currentCardIndex: action.currentCardIndex || action.currentCardIndex === 0 ? action.currentCardIndex : ""
             }
         case 'UPDATE_CURRENT_PAGE':
-            if (action.currentPage <= 0 || action.currentPage > state.totalPages) {
+            if (action.newCurrentPageIndex <= 0 || action.newCurrentPageIndex > state.totalPages) {
                 return state
             } else {
                 return {
                     ...state,
-                    currentPage: action.currentPage
+                    currentPageIndex: action.newCurrentPageIndex
                 }
             }
         default:

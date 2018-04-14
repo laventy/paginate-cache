@@ -26,19 +26,19 @@ const SimpleCard = ({ classes, card, index, toggleDrawer }) => {
             <Card className={classes.card}>
                 <CardContent>
                     <Typography className={classes.title} color="textSecondary">
-                        {card.coreData.state}
+                        {card.coreData ? card.coreData.state : 'No Content'}
                     </Typography>
                     <Typography variant="headline" component="h2">
-                        {card.coreData.number}
+                        {card.coreData ? card.coreData.number : 'No Content'}
                     </Typography>
                     <Typography className={classes.pos} color="textSecondary">
-                        application: {card.coreData.application}
+                        application: {card.coreData ? card.coreData.application : ''}
                     </Typography>
                     <Typography className={classes.pos} color="textSecondary">
-                        assignee: {card.coreData.assignee}
+                        assignee: {card.coreData ? card.coreData.assignee : ''}
                     </Typography>
                     <Typography component="p">
-                        {card.coreData.shortDescription ? card.coreData.shortDescription : "No Description"}
+                        {card.coreData && card.coreData.shortDescription ? card.coreData.shortDescription : "No Description"}
                     </Typography>
                 </CardContent>
                 <CardActions>
@@ -50,6 +50,9 @@ const SimpleCard = ({ classes, card, index, toggleDrawer }) => {
 }
 
 SimpleCard.propTypes = {
+    card: PropTypes.object,
+    index: PropTypes.number.isRequired,
+    toggleDrawer: PropTypes.func.isRequired,
     classes: PropTypes.object.isRequired,
 };
 

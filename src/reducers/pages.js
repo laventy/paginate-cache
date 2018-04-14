@@ -1,7 +1,15 @@
-import mockData from "./mockData"
+//  pages = {
+//      pageIndex: [card]
+//  }
 
-const pages = (state = mockData, action) => {
+const pages = (state = {}, action) => {
+    console.log(state)
     switch (action.type) {
+        case 'FETCH_PAGE_SUCCESS':
+            return {
+                ...state,
+                [action.pageIndex]: action.cards
+            }
         default:
             return state
     }

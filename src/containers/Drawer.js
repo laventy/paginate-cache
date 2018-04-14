@@ -3,11 +3,11 @@ import { toggleDrawer } from '../actions'
 import TemporaryDrawer from '../components/TemporaryDrawer'
 
 const mapStateToProps = state => ({
-    currentCard: state.pages[state.meta.currentPage][state.meta.currentCard]
+    currentCard: state.meta.currentCardIndex !== "" && state.pages[state.meta.currentPageIndex] ? state.pages[state.meta.currentPageIndex][state.meta.currentCardIndex] : {}
 })
 
 const mapDispatchToProps = dispatch => ({
-    toggleDrawer: currentCard => dispatch(toggleDrawer(currentCard))
+    toggleDrawer: currentCardIndex => dispatch(toggleDrawer(currentCardIndex))
 })
 
 export default connect(

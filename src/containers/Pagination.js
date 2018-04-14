@@ -1,14 +1,16 @@
 import { connect } from 'react-redux'
-import { updateCurrentPage } from '../actions'
+import { updateCurrentPage, addPage, checkAndAddCache } from '../actions'
 import Pagination from '../components/Pagination'
 
 const mapStateToProps = state => ({
-    currentPage: state.meta.currentPage,
+    currentPageIndex: state.meta.currentPageIndex,
     totalPages: state.meta.totalPages
 })
 
 const mapDispatchToProps = dispatch => ({
-    updateCurrentPage: currentPage => dispatch(updateCurrentPage(currentPage))
+    updateCurrentPage: newCurrentPageIndex => dispatch(updateCurrentPage(newCurrentPageIndex)),
+    addPage: (pageIndex, isGetTotalNum = false) => dispatch(addPage(pageIndex, isGetTotalNum)),
+    checkAndAddCache: (currentPageIndex) => dispatch(checkAndAddCache(currentPageIndex))
 })
 
 export default connect(

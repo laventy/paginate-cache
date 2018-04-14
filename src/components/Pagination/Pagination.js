@@ -5,20 +5,26 @@ import Grid from 'material-ui/Grid';
 
 import "./Pagination.css";
 
-const Pagination = ({ currentPage, totalPages, updateCurrentPage }) => (
+const Pagination = ({ currentPageIndex, totalPages, updateCurrentPage, addPage, checkAndAddCache }) => (
     <div>
         <Grid container justify="center" spacing={40}>
             <Grid item>
-                <Button onClick={() => { updateCurrentPage(currentPage - 1) }}>Back</Button>
+                <Button onClick={() => { updateCurrentPage(currentPageIndex - 1) }}>Back</Button>
             </Grid>
             <Grid item>
-                <div className="page-indicator">{currentPage} of {totalPages}</div>
+                <div className="page-indicator">Page: {currentPageIndex} of {totalPages}</div>
             </Grid>
             <Grid item>
-                <Button onClick={() => { updateCurrentPage(currentPage + 1) }}>Next</Button>
+                <Button onClick={() => { checkAndAddCache(currentPageIndex + 1); updateCurrentPage(currentPageIndex + 1); addPage(currentPageIndex + 1) }}>Next</Button>
             </Grid>
         </Grid>
     </div>
 )
 
+Pagination.propTypes = {
+    currentPageIndex: PropTypes.number,
+    totalPages: PropTypes.node,
+    updateCurrentPage: PropTypes.func.isRequired,
+    addPage: PropTypes.func.isRequired
+};
 export default Pagination;

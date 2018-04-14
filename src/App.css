@@ -1,1 +1,17 @@
 
+/* Fix the cards layout problem for responsive design */
+.outer-container {
+    padding: 20px;
+}
+
+@media (min-width: 1000px) and (max-width: 1300px) {
+    .outer-container {
+      padding: 0 190px
+    }
+}
+
+@media (min-width: 970px) and (max-width: 1000px) {
+    .outer-container {
+      padding: 0 40px
+    }
+}

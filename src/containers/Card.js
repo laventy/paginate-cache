@@ -7,7 +7,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    toggleDrawer: currentCard => dispatch(toggleDrawer(currentCard))
+    toggleDrawer: currentCardIndex => dispatch(toggleDrawer(currentCardIndex))
 })
 
 export default connect(
