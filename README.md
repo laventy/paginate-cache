@@ -32,24 +32,24 @@ Cache pages in advance when almost coming to the end of the cache, with the perf
         ```
           if (currentPageIndex + 2) not in cache
 
-              more pages should be cached
+              4 pages forward and backward will be cached (ignore if already in cache)
         ```
 
         ```
           if (currentPageIndex - 2) not in cache
 
-              more pages should be cached
+              4 pages forward and backward will be cached (ignore if already in cache)
         ```
 
         ```
           if (currentPageIndex + 1) not in cache
 
-              more pages should be cached
+              4 pages forward and backward will be cached (ignore if already in cache)
         ```
         ```
           if (currentPageIndex - 1) not in cache
 
-              more pages should be cached
+              4 pages forward and backward will be cached (ignore if already in cache)
         ```
         ```
           otherwise
