@@ -12,9 +12,11 @@ Cache pages in advance when almost coming to the end of the cache, with the perf
 
 ## Key Points
   1. Cache **4** pages forward at the beganning (i.e. cache pages of 2 - 5).
-  2. Always keep **4** cached pages forward and backward based on the current       page index at any given time.
+  2. Always keep **4** cached pages forward and backward based on the current       page index at any given time, unless still have some cache to consume
 
      For example, if the current page index is 20, then pages of 16-19 and 21 - 24 should be cached.
+
+     Then if the current page index becomes 19, then no more cache because there is still enough cache to consume.
   3. if the user clicks the Next or Back button too quickly, the **Debounce** function comes to reduce the unnecessary fetching.
 
      For example, if the user navigate from page 1 to page 20 too quickly, then only pages of 16 - 19 and 21 - 24 should be cached. 
