@@ -21,6 +21,10 @@ const styles = {
 };
 
 const SimpleCard = ({ classes, card, index, toggleDrawer }) => {
+    if (!card) {
+        return ""
+    }
+
     return (
         <div>
             <Card className={classes.card}>
