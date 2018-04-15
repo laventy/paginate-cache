@@ -132,10 +132,6 @@ export const checkAndAddCache = (currentPageIndex) => {
 }
 
 const isNeedMoreCache = (currentPageIndex, totalPages, cache) => {
-    // Check edge cases when reach to the end
-    if (!cache.has(currentPageIndex + 2) && cache.has(currentPageIndex + 1))
-        return false
-
     // Check items of two positions forward and backward
     if (!cache.has(currentPageIndex - 2) && (currentPageIndex - 2) >= 1)
         return true
