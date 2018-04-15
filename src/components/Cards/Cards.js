@@ -12,7 +12,7 @@ const spacing = '16'
 class Cards extends React.Component {
     componentDidMount() {
         this.props.addPage(1, true);
-        this.props.addCache(2, 4);
+        this.props.addNewCache(new Set([2, 3, 4, 5]));
     }
 
     buildCardsLayout = () => (

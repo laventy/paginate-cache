@@ -17,8 +17,8 @@ const styles = {
 const isObjEmpty = (obj) => (Object.keys(obj).length === 0 && obj.constructor === Object)
 
 const TemporaryDrawer = ({ classes, currentCard, toggleDrawer }) => {
-    console.log(55)
-    console.log(currentCard)
+    // console.log(55)
+    // console.log(currentCard)
     const sideList = (
         <div className={classes.list}>
             <List>
