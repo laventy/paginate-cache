@@ -1,36 +1,10 @@
 import axios from 'axios';
 
-export const toggleDrawer = currentCardIndex => ({
-    type: 'TOGGLE_DRAWER',
-    currentCardIndex
-})
-
-// Meta Action Creators
-export const updateCurrentPage = newCurrentPageIndex => ({
-    type: 'UPDATE_CURRENT_PAGE',
-    newCurrentPageIndex
-})
-
-export const setTotal = totalPages => ({
-    type: 'SET_TOTAL',
-    totalPages
-})
-
-export const setCachedTo = cachedTo => ({
-    type: 'SET_CACHE_TO',
-    cachedTo
-})
-
-// Pages Action Creators
-export const fetchPageSuccess = (pageIndex, cards) => ({
-    type: 'FETCH_PAGE_SUCCESS',
-    pageIndex,
-    cards
-})
-
-// Thunk
+/*
+ * Fetching Detail
+ */
 const getUrl = (pageIndex) => {
-    return `https://atr-test-dh1.aiam-dh.com/atr-gateway/ticket-management/api/v1/tickets?ticketType=incident&sortBy=lastUpdateDate&sortDirection=DESC&page=${pageIndex}&perPage=12`
+    return `https://atr-test-dh1.aiam-dh.com/atr-gateway/ticket-management/api/v1/tickets?ticketType=incident&sortBy=lastUpdateDate&sortDirection=DESC&page=${pageIndex - 1}&perPage=12`
 }
 
 const config = {
@@ -41,33 +15,60 @@ const config = {
     }
 }
 
+/*
+ * Meta - Basic Action Creators
+ */
+
+// Update the current page index
+export const updateCurrentPage = newCurrentPageIndex => ({
+    type: 'UPDATE_CURRENT_PAGE',
+    newCurrentPageIndex
+})
+
+// Set the total number of pages
+export const setTotal = totalPages => ({
+    type: 'SET_TOTAL',
+    totalPages
+})
+
+// Toggle the drawer
+// Open the drawer by giving a none empty card index
+// Close the drawer by giving an empty card index value
+export const toggleDrawer = currentCardIndex => ({
+    type: 'TOGGLE_DRAWER',
+    currentCardIndex
+})
+
+/*
+ * Pages action creators/thunks
+ */
+// Add a new page into the pages state
+export const fetchPageSuccess = (pageIndex, cards) => ({
+    type: 'FETCH_PAGE_SUCCESS',
+    pageIndex,
+    cards
+})
+
 export const addPage = (pageIndex, isGetTotalNum = false) => {
     return (dispatch, getState) => {
-        //dispatch(itemsIsLoading(true));
+        // Cancel data fetching if the page is 0 or less Or it is beyong the total
+        const totalPages = getState().meta.totalPages ? getState().meta.totalPages : 9999
+        if (pageIndex < 1 || pageIndex > totalPages) {
+            return
+        }
 
-        // fetch(url)
-        //     .then((response) => {
-        //         if (!response.ok) {
-        //             throw Error(response.statusText);
-        //         }
-
-        //         dispatch(itemsIsLoading(false));
-
-        //         return response;
-        //     })
-        //     .then((response) => response.json())
-        //     .then((items) => dispatch(itemsFetchDataSuccess(items)))
-        //     .catch(() => dispatch(itemsHasErrored(true)));
-
-        // Cancel data fetching if it is already in the cache
+        // Cancel data fetching if it is already fetched
         if (getState().pages[pageIndex]) {
             return
         }
 
         // Cancel data fetching if the request has been sent for cache
-        if (pageIndex <= getState().meta.cachedTo) {
+        if (getState().meta.cache.has(pageIndex)) {
             return
         }
+
+        // Add this page into cache
+        dispatch(addCache(new Set([pageIndex])))
 
         axios.get(getUrl(pageIndex), config).then((response) => {
             dispatch(fetchPageSuccess(pageIndex, response.data))
@@ -80,37 +81,101 @@ export const addPage = (pageIndex, isGetTotalNum = false) => {
     };
 }
 
-export const addCache = (from, to) => {
-    return (dispatch) => {
-        // Update the cachedTo state
-        dispatch(setCachedTo(to))
+/*
+ * Cache related action creators/thunks
+ */
+const threshold = 2 // cache fetching threhold
+const cachedPerTime = 4 // number of pages that will be cached forward and backward every time. cache 8 pages in total.
+
+// Add new page indexes into the cache
+export const addCache = cache => ({
+    type: 'ADD_CACHE',
+    cache
+})
+
+// cache parameter is a Set
+export const addNewCache = (cache) => {
+    return (dispatch, getState) => {
+        var newCachedPages = new Set();
+        const totalPages = getState().meta.totalPages ? getState().meta.totalPages : 9999
+
+        // Check if already existed/registered in the cache
+        const cacheInState = getState().meta.cache
+
+        for (let pageIndex of cache) {
+            if (!cacheInState.has(pageIndex)) {
+                newCachedPages.add(pageIndex)
+            }
+        }
+
+        // Update the cached state
+        dispatch(addCache(newCachedPages))
 
         // Send requests to fetch more pages
-        for (let pageIndex = from; pageIndex <= to; pageIndex++) {
+        for (let pageIndex of cache) {
+            if (pageIndex < 1 || pageIndex > totalPages)
+                return
+
             axios.get(getUrl(pageIndex), config).then((response) => {
                 dispatch(fetchPageSuccess(pageIndex, response.data))
             })
+        };
+    };
+}
+
+export const checkAndAddCache = (currentPageIndex) => {
+    return (dispatch, getState) => {
+        const cache = getState().meta.cache;
+        const totalPages = getState().meta.totalPages ? getState().meta.totalPages : 9999
+
+        if (isNeedMoreCache(currentPageIndex, totalPages, cache)) {
+            // Get new page indexes that should be cached
+            const newCachedPages = getNewCachedPages(currentPageIndex, totalPages, cache)
+
+            // Update the cached state
+            dispatch(addCache(newCachedPages))
+
+            // Send requests to fetch more pages
+            for (let pageIndex of newCachedPages) {
+                if (pageIndex < 1 || pageIndex > totalPages)
+                    return
+
+                axios.get(getUrl(pageIndex), config).then((response) => {
+                    dispatch(fetchPageSuccess(pageIndex, response.data))
+                })
+            };
         }
     };
 }
 
-const threshold = 2
-const cachedPerTime = 4
-export const checkAndAddCache = (currentPageIndex) => {
-    return (dispatch, getState) => {
-        const cacheTo = getState().meta.cachedTo;
+/*
+ *  Cache Helper funtions
+ */
+const isNeedMoreCache = (currentPageIndex, totalPages, cache) => {
+    // Check page indexes of two positions forward and backward
+    if (!cache.has(currentPageIndex - threshold) && (currentPageIndex - threshold) >= 1)
+        return true
+    if (!cache.has(currentPageIndex + threshold) && (currentPageIndex + threshold) >= 1)
+        return true
 
-        if (cacheTo - currentPageIndex < threshold) {
-            const newCacheTo = cacheTo + cachedPerTime
-            // Update the cachedTo state
-            dispatch(setCachedTo(newCacheTo))
+    // Check page indexes of one position forward and backward
+    if (!cache.has(currentPageIndex - 1) && (currentPageIndex - 1) >= 1)
+        return true
+    if (!cache.has(currentPageIndex + 1) && (currentPageIndex + 1) >= 1)
+        return true
+}
 
-            // Send requests to fetch more pages
-            for (let pageIndex = cacheTo + 1; pageIndex <= newCacheTo; pageIndex++) {
-                axios.get(getUrl(pageIndex), config).then((response) => {
-                    dispatch(fetchPageSuccess(pageIndex, response.data))
-                })
-            }
-        }
-    };
+const getNewCachedPages = (currentPageIndex, totalPages, cache) => {
+    var newCachedPages = new Set();
+
+    for (let i = 1; i <= cachedPerTime; i++) {
+        // Forward gathering
+        const forwardPageIndex = currentPageIndex + i
+        if (!cache.has(forwardPageIndex) && forwardPageIndex >= 1 && forwardPageIndex <= totalPages) newCachedPages.add(forwardPageIndex)
+        // Backward gathering
+        const backwardPageIndex = currentPageIndex - i
+        if (!cache.has(backwardPageIndex) && backwardPageIndex >= 1 && backwardPageIndex <= totalPages) newCachedPages.add(backwardPageIndex)
+    }
+
+    return newCachedPages
 }

@@ -1,29 +1,28 @@
 //  meta = {
-//      currentPageIndex,
-//      currentCardIndex
-//      totalPages
-//      cachedTo
+//      currentPageIndex, -- the current page index
+//      currentCardIndex, -- the current card index
+//      totalPages, -- the number of total pages
+//      cache -- pages indexes being cached
 //  }
 
 const initialState = {
     currentPageIndex: 1,
     currentCardIndex: "",
     totalPages: "",
-    cachedTo: 0
+    cache: new Set()
 }
 
 const meta = (state = initialState, action) => {
-    console.log(state)
     switch (action.type) {
         case 'SET_TOTAL':
             return {
                 ...state,
                 totalPages: action.totalPages
             }
-        case 'SET_CACHE_TO':
+        case 'ADD_CACHE':
             return {
                 ...state,
-                cachedTo: action.cachedTo
+                cache: new Set([...state.cache, ...action.cache])
             }
         case 'TOGGLE_DRAWER':
             return {

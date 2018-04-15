@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { addPage, addCache } from '../actions'
+import { addPage, addNewCache } from '../actions'
 import Cards from '../components/Cards'
 
 const mapStateToProps = state => ({
@@ -8,7 +8,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     addPage: (pageIndex, isGetTotalNum = false) => dispatch(addPage(pageIndex, isGetTotalNum)),
-    addCache: (from, to) => dispatch(addCache(from, to))
+    addNewCache: (cache) => dispatch(addNewCache(cache))
 })
 
 export default connect(
