@@ -3,7 +3,6 @@
 //  }
 
 const pages = (state = {}, action) => {
-    //console.log(state)
     switch (action.type) {
         case 'FETCH_PAGE_SUCCESS':
             return {

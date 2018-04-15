@@ -84,8 +84,8 @@ export const addPage = (pageIndex, isGetTotalNum = false) => {
 /*
  * Cache related action creators/thunks
  */
-const threshold = 2
-const cachedPerTime = 4
+const threshold = 2 // cache fetching threhold
+const cachedPerTime = 4 // number of pages that will be cached forward and backward every time. cache 8 pages in total.
 
 // Add new page indexes into the cache
 export const addCache = cache => ({
@@ -125,12 +125,10 @@ export const addNewCache = (cache) => {
 
 export const checkAndAddCache = (currentPageIndex) => {
     return (dispatch, getState) => {
-        console.log("check and add cache - in function")
         const cache = getState().meta.cache;
         const totalPages = getState().meta.totalPages ? getState().meta.totalPages : 9999
 
         if (isNeedMoreCache(currentPageIndex, totalPages, cache)) {
-            console.log("need more cache")
             // Get new page indexes that should be cached
             const newCachedPages = getNewCachedPages(currentPageIndex, totalPages, cache)
 

@@ -7,8 +7,8 @@ import { debounce } from 'lodash';
 import "./Pagination.css";
 
 // Debounced Function used to reduce the unnecessary fetching when user navigates too quickly
-const debouncedFunc = debounce((parameter, func) => { console.log(444); func(parameter) }, 250)
-const debouncedFunc1 = debounce((parameter, func) => { console.log(555); func(parameter) }, 250)
+const debouncedFunc = debounce((parameter, func) => { func(parameter) }, 250)
+const debouncedFunc1 = debounce((parameter, func) => { func(parameter) }, 250)
 
 const Pagination = ({ currentPageIndex, totalPages, updateCurrentPage, addPage, checkAndAddCache }) => {
     return (<div>

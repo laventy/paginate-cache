@@ -1,8 +1,8 @@
 //  meta = {
-//      currentPageIndex,
-//      currentCardIndex
-//      totalPages
-//      cache
+//      currentPageIndex, -- the current page index
+//      currentCardIndex, -- the current card index
+//      totalPages, -- the number of total pages
+//      cache -- pages indexes being cached
 //  }
 
 const initialState = {
@@ -13,7 +13,6 @@ const initialState = {
 }
 
 const meta = (state = initialState, action) => {
-    //console.log(state)
     switch (action.type) {
         case 'SET_TOTAL':
             return {
