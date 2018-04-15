@@ -23,33 +23,36 @@ Cache pages in advance when almost coming to the end of the cache, with the perf
 
 ## Algorithm
   1. Fetch page 1 and also cache pages of 2 - 5 at the beganning.
-  2. when click Next or Back button, check if more pages should be fetched and cached:
-      ```
-        if (currentPageIndex + 2) not in cache
+  2. when click Next or Back button, do following things
+      1) Update the current page index to the target index
+      2) Fetch the content of this new page if not cached
+      3) Check if more pages should be fetched and cached, based on conditions below:
+        ```
+          if (currentPageIndex + 2) not in cache
 
-            more pages should be cached
-      ```
+              more pages should be cached
+        ```
 
-      ```
-        if (currentPageIndex - 2) not in cache
+        ```
+          if (currentPageIndex - 2) not in cache
 
-            more pages should be cached
-      ```
+              more pages should be cached
+        ```
 
-      ```
-        if (currentPageIndex + 1) not in cache
+        ```
+          if (currentPageIndex + 1) not in cache
 
-            more pages should be cached
-      ```
-      ```
-        if (currentPageIndex - 1) not in cache
+              more pages should be cached
+        ```
+        ```
+          if (currentPageIndex - 1) not in cache
 
-            more pages should be cached
-      ```
-      ```
-        otherwise
-            no pages should be cached
-      ```
+              more pages should be cached
+        ```
+        ```
+          otherwise
+              no pages should be cached
+        ```
 
         
   
