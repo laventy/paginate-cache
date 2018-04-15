@@ -1,5 +1,5 @@
 //  pages = {
-//      pageIndex: [card]
+//      pageIndex: [card] -- Key is the papge index, Value is the array of cards
 //  }
 
 const pages = (state = {}, action) => {

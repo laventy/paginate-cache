@@ -3,7 +3,6 @@ import { toggleDrawer } from '../actions'
 import Card from '../components/Card'
 
 const mapStateToProps = state => ({
-
 })
 
 const mapDispatchToProps = dispatch => ({
