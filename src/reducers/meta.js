@@ -8,7 +8,7 @@
 const initialState = {
     currentPageIndex: 1,
     currentCardIndex: "",
-    totalPages: 20,
+    totalPages: "",
     cache: new Set()
 }
 

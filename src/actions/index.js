@@ -65,10 +65,10 @@ export const addPage = (pageIndex, isGetTotalNum = false) => {
         axios.get(getUrl(pageIndex), config).then((response) => {
             dispatch(fetchPageSuccess(pageIndex, response.data))
 
-            // // Get total number of cards
-            // if (isGetTotalNum) {
-            //     dispatch(setTotal(Math.ceil(response.headers["x-total-count"] / 12)))
-            // }
+            // Get total number of cards
+            if (isGetTotalNum) {
+                dispatch(setTotal(Math.ceil(response.headers["x-total-count"] / 12)))
+            }
         })
     };
 }
